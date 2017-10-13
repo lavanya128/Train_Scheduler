@@ -99,7 +99,7 @@ $("#btnSubmit").on("click",function(event)
 	TName = $("#tname").val().trim();
 	Dest = $("#dest").val().trim();
 	FirstTrainTime = moment($("#firstTTime").val().trim(), "hh:mm").format("MM/DD/YYYY hh:mm:ss");
-  	Freq = $("#freqMins").val().trim();
+  Freq = $("#freqMins").val().trim();
 
 	console.log(TName);
 	console.log(Dest);
@@ -114,6 +114,12 @@ database.ref().push({
         freq:Freq
        
 });
+
+      $('#tname').val('');
+      $('#dest').val('');
+      $('#firstTTime').val('');
+      $('#freqMins').val('');
+
 });
 
 database.ref().on("child_added", function(childSnapshot) {
@@ -148,10 +154,13 @@ var diffTime = moment().diff(moment(convFirstTrain), "minutes");
     console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    var nTrain = moment.unix(nextTrain).format('mm:ss');
     console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    console.log("ARRIVAL TIME: " + moment(nTrain).format("hh:mm"));
+
 
      $("#fullList").append("<tr><td>" + newTrainName + "</td><td>" + newDestination + "</td><td>" +
-  newFrequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain +  "</td></tr>");
+  newFrequency + "</td><td>" + nTrain + "</td><td>" + tMinutesTillTrain +  "</td></tr>");
 
       //$("#current-train").append(currentTime);
 
